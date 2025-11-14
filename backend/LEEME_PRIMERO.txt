@@ -1,0 +1,56 @@
+================================================================================
+  COMO INICIAR EL BACKEND - GUIA PASO A PASO
+================================================================================
+
+PASO 1: Abre una terminal (PowerShell o CMD)
+   - Presiona Windows + R
+   - Escribe: cmd
+   - Presiona Enter
+
+PASO 2: Navega a la carpeta backend
+   - Escribe: cd C:\Users\Alejandro\Desktop\MARKOV\backend
+   - Presiona Enter
+
+PASO 3: Ejecuta el servidor
+   - Escribe: python main.py
+   - Presiona Enter
+
+PASO 4: Espera a ver este mensaje:
+   ==================================================
+   🚀 Iniciando servidor de Análisis de Riesgo Crediticio
+   ==================================================
+   📍 Servidor disponible en: http://localhost:8000
+
+PASO 5: NO CIERRES LA TERMINAL
+   - El servidor debe seguir corriendo
+   - Si cierras la terminal, el servidor se detendrá
+
+PASO 6: Verifica que funciona
+   - Abre tu navegador
+   - Ve a: http://localhost:8000/health
+   - Deberías ver: {"status":"ok","message":"Backend funcionando correctamente"}
+
+================================================================================
+  SI HAY ERRORES
+================================================================================
+
+ERROR: "python no se reconoce"
+   SOLUCION: Instala Python desde python.org y marca "Add to PATH"
+
+ERROR: "No module named 'fastapi'"
+   SOLUCION: Ejecuta: pip install fastapi uvicorn numpy pandas python-multipart pydantic
+
+ERROR: "Address already in use"
+   SOLUCION: Cierra otros programas que usen el puerto 8000
+
+================================================================================
+  ALTERNATIVA: Usar el script automático
+================================================================================
+
+En lugar de "python main.py", puedes ejecutar:
+   iniciar.bat
+
+Este script hace todo automáticamente.
+
+================================================================================
+
