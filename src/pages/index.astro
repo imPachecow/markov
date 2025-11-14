@@ -1,11 +1,2049 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<main class="container">
+		<header class="header">
+			<div class="header-content">
+				<h1><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Análisis de Riesgo Crediticio con Cadenas de Markov</h1>
+				<p class="subtitle">Sistema completo e intuitivo para análisis de riesgo crediticio. Sin necesidad de conocimientos técnicos.</p>
+				<div id="backend-status" class="backend-status">
+					<span class="status-indicator" id="status-indicator"><svg class="icon-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></span>
+					<span id="status-text">Verificando conexión...</span>
+				</div>
+			</div>
+		</header>
+
+		<nav class="tabs">
+			<button class="tab-btn active" data-tab="datos"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg> Datos</button>
+			<button class="tab-btn" data-tab="matriz"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Matriz</button>
+			<button class="tab-btn" data-tab="estacionario"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> Estacionario</button>
+			<button class="tab-btn" data-tab="perdidas"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Pérdidas</button>
+			<button class="tab-btn" data-tab="stress"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Stress</button>
+			<button class="tab-btn" data-tab="analisis"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Análisis</button>
+		</nav>
+
+		<section id="tab-datos" class="tab-content active">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg> Ingreso de Datos</h2>
+				<p class="description">Ingresa tus datos históricos de transiciones o genera datos de ejemplo automáticamente.</p>
+
+				<div class="card-actions">
+					<button id="btn-generar-ejemplo" class="btn btn-secondary"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle></svg> Generar Datos de Ejemplo</button>
+					<button id="btn-limpiar-datos" class="btn btn-outline"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Limpiar</button>
+				</div>
+
+				<div class="input-section">
+					<h3>Estados Crediticios</h3>
+					<p class="help-text">Define los estados crediticios de tu sistema (por defecto: Sano, Moroso, Incobrable)</p>
+					<div class="estados-input">
+						<input type="text" id="estado-1" value="Sano" placeholder="Estado 1" />
+						<input type="text" id="estado-2" value="Moroso" placeholder="Estado 2" />
+						<input type="text" id="estado-3" value="Incobrable" placeholder="Estado 3" />
+						<button id="btn-agregar-estado" class="btn-icon">+</button>
+					</div>
+				</div>
+
+				<div class="input-section">
+					<h3>Transiciones Históricas</h3>
+					<p class="help-text">Ingresa las transiciones una por una o usa el generador automático</p>
+					
+					<div class="transicion-input">
+						<select id="origen-select"></select>
+						<span>→</span>
+						<select id="destino-select"></select>
+						<input type="number" id="cantidad-transicion" value="1" min="1" placeholder="Cantidad" />
+						<button id="btn-agregar-transicion" class="btn btn-primary">Agregar</button>
+					</div>
+
+					<div class="transiciones-lista" id="transiciones-lista">
+						<p class="empty-state">No hay transiciones agregadas. Usa el generador de ejemplo o agrega transiciones manualmente.</p>
+					</div>
+				</div>
+
+				<div class="card-actions">
+					<button id="btn-estimar-matriz" class="btn btn-primary btn-large"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Estimar Matriz de Transición</button>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-matriz" class="tab-content">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Matriz de Transición</h2>
+				<p class="description">Visualiza y edita la matriz de transición estimada.</p>
+				
+				<div id="matriz-container" class="matriz-container">
+					<p class="empty-state">Procesa los datos primero para ver la matriz de transición.</p>
+				</div>
+
+				<div class="card-actions" id="matriz-actions" style="display: none;">
+					<button id="btn-editar-matriz" class="btn btn-secondary"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar Matriz</button>
+					<button id="btn-guardar-matriz" class="btn btn-primary"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Guardar Cambios</button>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-estacionario" class="tab-content">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> Distribución Estacionaria</h2>
+				<p class="description">Calcula y visualiza la distribución estacionaria de la cadena de Markov.</p>
+				
+				<div class="card-actions">
+					<button id="btn-calcular-estacionario" class="btn btn-primary btn-large"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> Calcular Vector Estacionario</button>
+				</div>
+
+				<div id="estacionario-container" class="resultado">
+					<p class="empty-state">Haz clic en el botón para calcular la distribución estacionaria.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-perdidas" class="tab-content">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Cálculo de Pérdidas Esperadas (ECL)</h2>
+				<p class="description">Calcula las pérdidas esperadas usando EAD × PD × LGD.</p>
+
+				<div class="input-section">
+					<h3>Parámetros por Estado</h3>
+					<div id="parametros-container" class="parametros-grid">
+						<p class="empty-state">Procesa los datos primero para configurar los parámetros.</p>
+					</div>
+				</div>
+
+				<div class="card-actions">
+					<button id="btn-calcular-perdidas" class="btn btn-primary btn-large"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Calcular Pérdidas Esperadas</button>
+				</div>
+
+				<div id="perdidas-container" class="resultado">
+					<p class="empty-state">Configura los parámetros y haz clic en calcular.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-stress" class="tab-content">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Escenarios de Stress</h2>
+				<p class="description">Aplica escenarios de stress para análisis de sensibilidad.</p>
+
+				<div class="input-section">
+					<h3>Factores de Stress</h3>
+					<div class="stress-inputs">
+						<div class="input-group">
+							<label for="factor-moroso">Factor Moroso (multiplicador):</label>
+							<input type="number" id="factor-moroso" value="1.2" step="0.1" min="1" />
+							<p class="help-text">Aumenta las transiciones a estados morosos</p>
+						</div>
+						<div class="input-group">
+							<label for="factor-incobrable">Factor Incobrable (multiplicador):</label>
+							<input type="number" id="factor-incobrable" value="1.3" step="0.1" min="1" />
+							<p class="help-text">Aumenta las transiciones a estados incobrables</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-actions">
+					<button id="btn-aplicar-stress" class="btn btn-primary btn-large"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Aplicar Escenario de Stress</button>
+				</div>
+
+				<div id="stress-container" class="resultado">
+					<p class="empty-state">Configura los factores y aplica el escenario de stress.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-analisis" class="tab-content">
+			<div class="card">
+				<h2><svg class="icon-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Análisis Avanzado</h2>
+				<p class="description">Visualizaciones y análisis adicionales de la cadena de Markov.</p>
+
+				<div class="analisis-grid">
+					<div class="analisis-card">
+						<h3><svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Estadísticas de Transición</h3>
+						<div id="estadisticas-container">
+							<p class="empty-state">Procesa los datos para ver estadísticas.</p>
+						</div>
+					</div>
+
+					<div class="analisis-card">
+						<h3><svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg> Probabilidades de Absorción</h3>
+						<div id="absorcion-container">
+							<p class="empty-state">Calcula el vector estacionario para ver probabilidades de absorción.</p>
+						</div>
+					</div>
+
+					<div class="analisis-card">
+						<h3><svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg> Tendencias</h3>
+						<div id="tendencias-container">
+							<p class="empty-state">Análisis de tendencias disponible después de calcular el vector estacionario.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="footer">
+		<div class="footer-content">
+			<div class="footer-section">
+				<h4>Sistema de Análisis de Riesgo Crediticio</h4>
+				<p>Análisis de riesgo crediticio usando Cadenas de Markov</p>
+			</div>
+			<div class="footer-section">
+				<h4>Funcionalidades</h4>
+				<ul>
+					<li>Estimación de Matrices de Transición</li>
+					<li>Cálculo de Distribuciones Estacionarias</li>
+					<li>Simulación de Pérdidas Esperadas</li>
+					<li>Escenarios de Stress</li>
+				</ul>
+			</div>
+			<div class="footer-section">
+				<h4>Metodología</h4>
+				<p>Basado en estándares de riesgo crediticio y metodologías formales de Cadenas de Markov.</p>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2024 Sistema de Análisis de Riesgo Crediticio. Desarrollado por Prydox Company y Alejandro Pacheco Sepúlveda, Samuel Botero Rendon, Sebastian Giraldo Salazar y Sebastian Gonzalez Escobar para análisis financiero.</p>
+		</div>
+	</footer>
 </Layout>
+
+<script>
+	const API_URL = '';
+
+	let estadoGlobal = {
+		estados: ['Sano', 'Moroso', 'Incobrable'],
+		transiciones: [] as Array<{origen: string, destino: string, cantidad: number}>,
+		matrizTransicion: null as number[][] | null,
+		matrizConteo: null as number[][] | null,
+		vectorEstacionario: null as number[] | null
+	};
+
+	function mostrarError(elemento: HTMLElement | null, mensaje: string) {
+		if (!elemento) return;
+		elemento.innerHTML = `<div class="error"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Error: ${mensaje}</div>`;
+	}
+
+	function mostrarCargando(elemento: HTMLElement | null) {
+		if (!elemento) return;
+		elemento.innerHTML = `<div class="loading"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Cargando...</div>`;
+	}
+
+	function formatearNumero(num: number | string, decimales: number = 4): string {
+		return typeof num === 'number' ? num.toFixed(decimales) : String(num);
+	}
+
+	function formatearPorcentaje(num: number): string {
+		return (num * 100).toFixed(2) + '%';
+	}
+
+	function inicializarEstados() {
+		const container = document.querySelector('.estados-input');
+		if (!container) return;
+
+		const estadosInputs = container.querySelectorAll('input[type="text"]');
+		estadosInputs.forEach((input, index) => {
+			if (index < estadoGlobal.estados.length) {
+				(input as HTMLInputElement).value = estadoGlobal.estados[index];
+			}
+		});
+
+		actualizarSelects();
+	}
+
+	function actualizarSelects() {
+		const origenSelect = document.getElementById('origen-select') as HTMLSelectElement;
+		const destinoSelect = document.getElementById('destino-select') as HTMLSelectElement;
+		
+		if (!origenSelect || !destinoSelect) return;
+
+		origenSelect.innerHTML = '';
+		destinoSelect.innerHTML = '';
+
+		estadoGlobal.estados.forEach(estado => {
+			const option1 = document.createElement('option');
+			option1.value = estado;
+			option1.textContent = estado;
+			origenSelect.appendChild(option1);
+
+			const option2 = document.createElement('option');
+			option2.value = estado;
+			option2.textContent = estado;
+			destinoSelect.appendChild(option2);
+		});
+	}
+
+		document.getElementById('btn-agregar-estado')?.addEventListener('click', () => {
+			const nuevoEstado = prompt('Nombre del nuevo estado:');
+		if (nuevoEstado && !estadoGlobal.estados.includes(nuevoEstado)) {
+			estadoGlobal.estados.push(nuevoEstado);
+			const container = document.querySelector('.estados-input');
+			if (container) {
+				const input = document.createElement('input');
+				input.type = 'text';
+				input.value = nuevoEstado;
+				input.id = `estado-${estadoGlobal.estados.length}`;
+				input.placeholder = `Estado ${estadoGlobal.estados.length}`;
+				container.insertBefore(input, container.lastElementChild);
+			}
+			actualizarSelects();
+		}
+		});
+
+		document.getElementById('btn-agregar-transicion')?.addEventListener('click', () => {
+			const origen = (document.getElementById('origen-select') as HTMLSelectElement)?.value;
+		const destino = (document.getElementById('destino-select') as HTMLSelectElement)?.value;
+		const cantidad = parseInt((document.getElementById('cantidad-transicion') as HTMLInputElement)?.value || '1');
+
+		if (!origen || !destino) return;
+
+		estadoGlobal.transiciones.push({ origen, destino, cantidad });
+		actualizarListaTransiciones();
+	});
+
+	function actualizarListaTransiciones() {
+		const container = document.getElementById('transiciones-lista');
+		if (!container) return;
+
+		if (estadoGlobal.transiciones.length === 0) {
+			container.innerHTML = '<p class="empty-state">No hay transiciones agregadas.</p>';
+			return;
+		}
+
+		let html = '<div class="transiciones-table"><table><thead><tr><th>Origen</th><th>Destino</th><th>Cantidad</th><th>Acción</th></tr></thead><tbody>';
+		
+		estadoGlobal.transiciones.forEach((trans, index) => {
+			html += `<tr>
+				<td>${trans.origen}</td>
+				<td>${trans.destino}</td>
+				<td>${trans.cantidad}</td>
+				<td><button class="btn-icon-small" onclick="eliminarTransicion(${index})"><svg class="icon-inline" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></td>
+			</tr>`;
+		});
+
+		html += '</tbody></table></div>';
+		html += `<p class="total-transiciones">Total: ${estadoGlobal.transiciones.reduce((sum, t) => sum + t.cantidad, 0)} transiciones</p>`;
+		
+		container.innerHTML = html;
+	}
+
+	(window as any).eliminarTransicion = (index: number) => {
+		estadoGlobal.transiciones.splice(index, 1);
+		actualizarListaTransiciones();
+	};
+
+	function inicializarEventListeners() {
+		document.querySelectorAll('.tab-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const tabId = btn.getAttribute('data-tab');
+				
+				document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+				document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+				
+				btn.classList.add('active');
+				document.getElementById(`tab-${tabId}`)?.classList.add('active');
+			});
+		});
+
+		document.getElementById('btn-agregar-estado')?.addEventListener('click', () => {
+			const nuevoEstado = prompt('Nombre del nuevo estado:');
+			if (nuevoEstado && !estadoGlobal.estados.includes(nuevoEstado)) {
+				estadoGlobal.estados.push(nuevoEstado);
+				const container = document.querySelector('.estados-input');
+				if (container) {
+					const input = document.createElement('input');
+					input.type = 'text';
+					input.value = nuevoEstado;
+					input.id = `estado-${estadoGlobal.estados.length}`;
+					input.placeholder = `Estado ${estadoGlobal.estados.length}`;
+					container.insertBefore(input, container.lastElementChild);
+				}
+				actualizarSelects();
+			}
+		});
+
+		document.getElementById('btn-agregar-transicion')?.addEventListener('click', () => {
+			const origen = (document.getElementById('origen-select') as HTMLSelectElement)?.value;
+			const destino = (document.getElementById('destino-select') as HTMLSelectElement)?.value;
+			const cantidad = parseInt((document.getElementById('cantidad-transicion') as HTMLInputElement)?.value || '1');
+
+			if (!origen || !destino) return;
+
+			estadoGlobal.transiciones.push({ origen, destino, cantidad });
+			actualizarListaTransiciones();
+		});
+
+		document.getElementById('btn-generar-ejemplo')?.addEventListener('click', () => {
+			estadoGlobal.transiciones = [
+				{ origen: 'Sano', destino: 'Sano', cantidad: 900 },
+				{ origen: 'Sano', destino: 'Moroso', cantidad: 80 },
+				{ origen: 'Sano', destino: 'Incobrable', cantidad: 20 },
+				{ origen: 'Moroso', destino: 'Moroso', cantidad: 70 },
+				{ origen: 'Moroso', destino: 'Incobrable', cantidad: 20 },
+				{ origen: 'Moroso', destino: 'Sano', cantidad: 10 },
+				{ origen: 'Incobrable', destino: 'Incobrable', cantidad: 100 }
+			];
+			actualizarListaTransiciones();
+			
+			const container = document.getElementById('transiciones-lista');
+			if (container) {
+				const total = estadoGlobal.transiciones.reduce((sum, t) => sum + t.cantidad, 0);
+				const mensaje = document.createElement('div');
+				mensaje.className = 'success';
+				mensaje.style.marginTop = '1rem';
+				mensaje.innerHTML = `<svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Se generaron ${estadoGlobal.transiciones.length} tipos de transiciones (${total} transiciones totales). Ahora puedes procesar los datos.`;
+				container.appendChild(mensaje);
+				
+				setTimeout(() => {
+					mensaje.remove();
+				}, 5000);
+			}
+		});
+
+		document.getElementById('btn-limpiar-datos')?.addEventListener('click', () => {
+			if (confirm('¿Estás seguro de limpiar todos los datos?')) {
+				estadoGlobal.transiciones = [];
+				actualizarListaTransiciones();
+			}
+		});
+	}
+
+	function estimarMatrizTransicion() {
+		const btn = document.getElementById('btn-estimar-matriz');
+		if (!btn) {
+			console.error('No se encontró el botón btn-estimar-matriz');
+			return;
+		}
+
+		btn.addEventListener('click', async function() {
+			if (!estadoGlobal.transiciones || estadoGlobal.transiciones.length === 0) {
+				alert('Por favor, agrega transiciones o genera datos de ejemplo primero.');
+				return;
+			}
+
+			const container = document.getElementById('matriz-container');
+			if (!container) {
+				alert('Error: No se encontró el contenedor para mostrar la matriz.');
+				return;
+			}
+
+			mostrarCargando(container);
+
+			try {
+				const registros: string[][] = [];
+				for (const trans of estadoGlobal.transiciones) {
+					if (trans.origen && trans.destino && trans.cantidad > 0) {
+						for (let i = 0; i < trans.cantidad; i++) {
+							registros.push([trans.origen, trans.destino]);
+						}
+					}
+				}
+
+				if (registros.length === 0) {
+					throw new Error('No hay transiciones válidas para procesar.');
+				}
+
+				const formData = new FormData();
+				formData.append('registros', JSON.stringify(registros));
+
+				const response = await fetch('/api/matriz', {
+					method: 'POST',
+					body: formData
+				});
+
+				if (!response.ok) {
+					const errorText = await response.text();
+					let errorData;
+					try {
+						errorData = JSON.parse(errorText);
+					} catch {
+						errorData = { error: errorText || `Error ${response.status}` };
+					}
+					throw new Error(errorData.error || `Error ${response.status}`);
+				}
+
+				const resultado = await response.json();
+
+				if (!resultado.estados || !resultado.matriz_transicion) {
+					throw new Error('Respuesta inválida del servidor');
+				}
+
+				estadoGlobal.estados = resultado.estados;
+				estadoGlobal.matrizTransicion = resultado.matriz_transicion;
+				estadoGlobal.matrizConteo = resultado.matriz_conteo;
+
+				mostrarMatrizCompleta(resultado, container);
+				
+				const acciones = document.getElementById('matriz-actions');
+				if (acciones) {
+					acciones.setAttribute('style', 'display: flex; gap: 1rem;');
+				}
+
+				document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+				document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+				document.querySelector('.tab-btn[data-tab="matriz"]')?.classList.add('active');
+				document.getElementById('tab-matriz')?.classList.add('active');
+
+				actualizarParametrosPerdidas();
+				actualizarEstadisticas(resultado);
+
+			} catch (error: any) {
+				console.error('Error:', error);
+				mostrarError(container, error.message || 'Error al estimar la matriz de transición');
+			}
+		});
+	}
+
+		document.getElementById('btn-calcular-estacionario')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos para obtener la matriz de transición.');
+				return;
+			}
+
+			const container = document.getElementById('estacionario-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const response = await fetch('/api/estacionario', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_transicion: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+				estadoGlobal.vectorEstacionario = data.vector_estacionario;
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Vector estacionario calculado</div>';
+				html += `<p><strong>Iteraciones:</strong> ${data.iteraciones} | <strong>Convergió:</strong> ${data.convergio ? 'Sí' : 'No'}</p>`;
+				
+				html += '<h3>Distribución Estacionaria π:</h3>';
+				html += '<table class="data-table"><thead><tr>';
+				data.estados.forEach((estado: string) => html += `<th>${estado}</th>`);
+				html += '</tr></thead><tbody><tr>';
+				data.vector_estacionario.forEach((val: number) => html += `<td>${formatearNumero(val)}<br><small>${formatearPorcentaje(val)}</small></td>`);
+				html += '</tr></tbody></table>';
+
+				html += '<div class="chart-container"><h4>Visualización</h4><div class="bar-chart">';
+				data.estados.forEach((estado: string, i: number) => {
+					const porcentaje = data.vector_estacionario[i] * 100;
+					html += `
+						<div class="bar-item">
+							<div class="bar-label">${estado}</div>
+							<div class="bar-wrapper">
+								<div class="bar" style="width: ${porcentaje}%"></div>
+								<span class="bar-value">${porcentaje.toFixed(2)}%</span>
+							</div>
+						</div>
+					`;
+				});
+				html += '</div></div>';
+
+				container.innerHTML = html;
+				actualizarAnalisisAvanzado(data);
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+		document.getElementById('btn-calcular-perdidas')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos.');
+				return;
+			}
+
+			const container = document.getElementById('perdidas-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const ead: Record<string, number> = {};
+				const lgd: Record<string, number> = {};
+
+				document.querySelectorAll('.param-input[data-param="ead"]').forEach(input => {
+					const estado = (input as HTMLElement).getAttribute('data-estado');
+					const valor = parseFloat((input as HTMLInputElement).value);
+					if (estado) ead[estado] = valor;
+				});
+
+				document.querySelectorAll('.param-input[data-param="lgd"]').forEach(input => {
+					const estado = (input as HTMLElement).getAttribute('data-estado');
+					const valor = parseFloat((input as HTMLInputElement).value) / 100; // Convertir a decimal
+					if (estado) lgd[estado] = valor;
+				});
+
+				const response = await fetch('/api/perdidas', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_transicion: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados,
+						ead,
+						lgd
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Pérdidas esperadas calculadas</div>';
+				html += `<div class="total-loss"><strong>Pérdida Total Esperada:</strong> $${formatearNumero(data.perdida_total, 2)}</div>`;
+				html += `<p><strong>Estado de Default:</strong> ${data.estado_default}</p>`;
+
+				html += '<h3>Desglose por Estado:</h3><table class="data-table"><thead><tr>';
+				html += '<th>Estado</th><th>EAD</th><th>PD</th><th>LGD</th><th>EL (Pérdida Esperada)</th>';
+				html += '</tr></thead><tbody>';
+
+				Object.entries(data.perdidas_por_estado).forEach(([estado, valores]: [string, any]) => {
+					html += `<tr>
+						<td><strong>${estado}</strong></td>
+						<td>$${formatearNumero(valores.EAD, 2)}</td>
+						<td>${formatearPorcentaje(valores.PD)}</td>
+						<td>${formatearPorcentaje(valores.LGD)}</td>
+						<td class="loss-cell">$${formatearNumero(valores.EL, 2)}</td>
+					</tr>`;
+				});
+
+				html += '</tbody></table>';
+				container.innerHTML = html;
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+		document.getElementById('btn-aplicar-stress')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos.');
+				return;
+			}
+
+			const container = document.getElementById('stress-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const factorMoroso = parseFloat((document.getElementById('factor-moroso') as HTMLInputElement)?.value || '1.2');
+				const factorIncobrable = parseFloat((document.getElementById('factor-incobrable') as HTMLInputElement)?.value || '1.3');
+
+				const response = await fetch('/api/stress', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_base: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados,
+						factor_moroso: factorMoroso,
+						factor_incobrable: factorIncobrable
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Escenario de stress aplicado</div>';
+				html += `<p><strong>Factor Moroso:</strong> ${data.cambios.factor_moroso}x | <strong>Factor Incobrable:</strong> ${data.cambios.factor_incobrable}x</p>`;
+
+				html += '<h3>Matriz de Transición (Stress):</h3>';
+				html += '<div class="matriz-wrapper"><table class="matriz-table"><thead><tr><th></th>';
+				data.estados.forEach((estado: string) => html += `<th>${estado}</th>`);
+				html += '</tr></thead><tbody>';
+
+				data.matriz_stress.forEach((fila: number[], i: number) => {
+					html += `<tr><th>${data.estados[i]}</th>`;
+					fila.forEach(celda => {
+						html += `<td>${formatearNumero(celda)}<br><small>${formatearPorcentaje(celda)}</small></td>`;
+					});
+					html += '</tr>';
+				});
+				html += '</tbody></table></div>';
+
+				html += '<h3>Comparación de Vectores Estacionarios:</h3>';
+				html += '<table class="data-table"><thead><tr><th>Estado</th><th>Base</th><th>Stress</th><th>Cambio</th></tr></thead><tbody>';
+
+				data.estados.forEach((estado: string, i: number) => {
+					const base = data.vector_estacionario_base[i];
+					const stress = data.vector_estacionario_stress[i];
+					const cambio = base > 0 ? ((stress - base) / base * 100) : 0;
+					const cambioClass = cambio > 0 ? 'positive' : 'negative';
+					html += `<tr>
+						<td><strong>${estado}</strong></td>
+						<td>${formatearPorcentaje(base)}</td>
+						<td>${formatearPorcentaje(stress)}</td>
+						<td class="${cambioClass}">${cambio > 0 ? '+' : ''}${cambio.toFixed(2)}%</td>
+					</tr>`;
+				});
+
+				html += '</tbody></table>';
+				container.innerHTML = html;
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+	function mostrarMatriz(matriz: number[][], estados: string[], container: HTMLElement) {
+		let html = '<div class="matriz-wrapper"><table class="matriz-table"><thead><tr><th></th>';
+		
+		estados.forEach(estado => {
+			html += `<th>${estado}</th>`;
+		});
+		html += '</tr></thead><tbody>';
+
+		matriz.forEach((fila, i) => {
+			html += `<tr><th>${estados[i]}</th>`;
+			fila.forEach(celda => {
+				const porcentaje = (celda * 100).toFixed(2);
+				html += `<td style="background: rgba(139, 69, 255, ${celda * 0.5 + 0.2});">
+					${formatearNumero(celda)}<br><small>${porcentaje}%</small>
+				</td>`;
+			});
+			html += '</tr>';
+		});
+
+		html += '</tbody></table></div>';
+		container.innerHTML = html;
+	}
+
+	function mostrarMatrizCompleta(resultado: any, container: HTMLElement) {
+		console.log('Resultado completo recibido:', resultado);
+		const { matriz_transicion, estados, propiedades_algebra, propiedades_markov, clasificacion_estados } = resultado;
+		
+		console.log('Propiedades álgebra:', propiedades_algebra);
+		console.log('Propiedades Markov:', propiedades_markov);
+		console.log('Clasificación estados:', clasificacion_estados);
+		
+		let html = '';
+		
+		// Matriz de transición básica
+		html += '<div class="analisis-section"><h3>Matriz de Transición T</h3>';
+		html += '<div class="matriz-wrapper"><table class="matriz-table"><thead><tr><th></th>';
+		estados.forEach((estado: string) => {
+			html += `<th>${estado}</th>`;
+		});
+		html += '</tr></thead><tbody>';
+
+		matriz_transicion.forEach((fila: number[], i: number) => {
+			html += `<tr><th>${estados[i]}</th>`;
+			fila.forEach((celda: number) => {
+				const porcentaje = (celda * 100).toFixed(2);
+				html += `<td style="background: rgba(139, 69, 255, ${celda * 0.5 + 0.2});">
+					${formatearNumero(celda)}<br><small>${porcentaje}%</small>
+				</td>`;
+			});
+			html += '</tr>';
+		});
+		html += '</tbody></table></div></div>';
+
+		// Propiedades de Álgebra Lineal
+		if (propiedades_algebra) {
+			html += '<div class="analisis-section"><h3>Propiedades de Álgebra Lineal</h3>';
+			html += '<div class="propiedades-grid">';
+			
+			html += '<div class="propiedad-card"><h4>Propiedades Básicas</h4><ul>';
+			if (propiedades_algebra.determinante !== null && propiedades_algebra.determinante !== undefined) {
+				html += `<li><strong>Determinante:</strong> ${formatearNumero(propiedades_algebra.determinante)}</li>`;
+			}
+			html += `<li><strong>Traza:</strong> ${formatearNumero(propiedades_algebra.traza)}</li>`;
+			if (propiedades_algebra.rango !== null) {
+				html += `<li><strong>Rango:</strong> ${propiedades_algebra.rango}</li>`;
+			}
+			if (propiedades_algebra.numero_condicion !== null) {
+				html += `<li><strong>Número de Condición:</strong> ${formatearNumero(propiedades_algebra.numero_condicion)}</li>`;
+			}
+			html += '</ul></div>';
+
+			html += '<div class="propiedad-card"><h4>Normas</h4><ul>';
+			if (propiedades_algebra.normas) {
+				html += `<li><strong>Frobenius:</strong> ${formatearNumero(propiedades_algebra.normas.frobenius)}</li>`;
+				if (propiedades_algebra.normas.espectral !== null) {
+					html += `<li><strong>Espectral:</strong> ${formatearNumero(propiedades_algebra.normas.espectral)}</li>`;
+				}
+				html += `<li><strong>Infinito:</strong> ${formatearNumero(propiedades_algebra.normas.infinito)}</li>`;
+				html += `<li><strong>Uno:</strong> ${formatearNumero(propiedades_algebra.normas.uno)}</li>`;
+			}
+			html += '</ul></div>';
+
+			// Eigenvalores
+			if (propiedades_algebra.eigenvalores && !propiedades_algebra.eigenvalores.error) {
+				html += '<div class="propiedad-card"><h4>Valores Propios (Eigenvalores)</h4>';
+				html += `<p><strong>Eigenvalor Dominante:</strong> ${formatearNumero(propiedades_algebra.eigenvalores.dominante || 0)}</p>`;
+				html += '<ul>';
+				propiedades_algebra.eigenvalores.valores_reales?.forEach((val: number, i: number) => {
+					const img = propiedades_algebra.eigenvalores.valores_imaginarios?.[i] || 0;
+					if (Math.abs(img) < 1e-10) {
+						html += `<li>λ${i+1} = ${formatearNumero(val)} (|λ| = ${formatearNumero(propiedades_algebra.eigenvalores.modulos?.[i] || 0)})</li>`;
+					} else {
+						html += `<li>λ${i+1} = ${formatearNumero(val)} ${img >= 0 ? '+' : ''}${formatearNumero(img)}i (|λ| = ${formatearNumero(propiedades_algebra.eigenvalores.modulos?.[i] || 0)})</li>`;
+					}
+				});
+				html += '</ul></div>';
+			}
+
+			// SVD
+			if (propiedades_algebra.svd && !propiedades_algebra.svd.error) {
+				html += '<div class="propiedad-card"><h4>Descomposición SVD</h4><ul>';
+				html += `<li><strong>Valor Singular Máximo:</strong> ${formatearNumero(propiedades_algebra.svd.valor_singular_maximo || 0)}</li>`;
+				html += `<li><strong>Valor Singular Mínimo:</strong> ${formatearNumero(propiedades_algebra.svd.valor_singular_minimo || 0)}</li>`;
+				html += '</ul></div>';
+			}
+
+			html += '</div></div>';
+		}
+
+		// Propiedades de Markov
+		if (propiedades_markov && !propiedades_markov.error) {
+			html += '<div class="analisis-section"><h3>Propiedades de la Cadena de Markov</h3>';
+			html += '<div class="propiedades-grid">';
+			
+			html += '<div class="propiedad-card"><h4>Propiedades Estocásticas</h4><ul>';
+			html += `<li><strong>Es Estocástica:</strong> ${propiedades_markov.es_estocastica ? 'Sí' : 'No'}</li>`;
+			html += `<li><strong>Es Doblemente Estocástica:</strong> ${propiedades_markov.es_doblemente_estocastica ? 'Sí' : 'No'}</li>`;
+			if (propiedades_markov.desviacion_estocastica !== undefined) {
+				html += `<li><strong>Desviación Estocástica:</strong> ${formatearNumero(propiedades_markov.desviacion_estocastica)}</li>`;
+			}
+			html += '</ul></div>';
+
+			html += '<div class="propiedad-card"><h4>Propiedades Estructurales</h4><ul>';
+			html += `<li><strong>Es Irreducible:</strong> ${propiedades_markov.es_irreducible ? 'Sí' : 'No'}</li>`;
+			html += `<li><strong>Es Aperiódica:</strong> ${propiedades_markov.es_aperiodica ? 'Sí' : 'No'}</li>`;
+			html += `<li><strong>Es Ergódica:</strong> ${propiedades_markov.es_ergodica ? 'Sí' : 'No'}</li>`;
+			html += '</ul></div>';
+
+			if (propiedades_markov.tiene_estados_absorbentes) {
+				html += '<div class="propiedad-card"><h4>Estados Absorbentes</h4><ul>';
+				propiedades_markov.estados_absorbentes?.forEach((estado: string) => {
+					html += `<li>${estado}</li>`;
+				});
+				html += '</ul></div>';
+			}
+
+			html += '</div></div>';
+		}
+
+		// Clasificación de Estados
+		if (clasificacion_estados && !clasificacion_estados.error) {
+			html += '<div class="analisis-section"><h3>Clasificación de Estados</h3>';
+			html += '<div class="propiedades-grid">';
+			
+			if (clasificacion_estados.absorbentes && clasificacion_estados.absorbentes.length > 0) {
+				html += '<div class="propiedad-card"><h4>Estados Absorbentes</h4><ul>';
+				clasificacion_estados.absorbentes.forEach((est: any) => {
+					html += `<li>${est.estado} (P = ${formatearNumero(est.probabilidad_absorcion)})</li>`;
+				});
+				html += '</ul></div>';
+			}
+
+			if (clasificacion_estados.transitorios && clasificacion_estados.transitorios.length > 0) {
+				html += '<div class="propiedad-card"><h4>Estados Transitorios</h4><ul>';
+				clasificacion_estados.transitorios.forEach((est: any) => {
+					const tiempo = est.tiempo_medio_absorcion ? ` (Tiempo medio absorción: ${formatearNumero(est.tiempo_medio_absorcion)} períodos)` : '';
+					html += `<li>${est.estado}${tiempo}</li>`;
+				});
+				html += '</ul></div>';
+			}
+
+			if (clasificacion_estados.recurrentes && clasificacion_estados.recurrentes.length > 0) {
+				html += '<div class="propiedad-card"><h4>Estados Recurrentes</h4><ul>';
+				clasificacion_estados.recurrentes.forEach((est: any) => {
+					html += `<li>${est.estado}</li>`;
+				});
+				html += '</ul></div>';
+			}
+
+			html += '</div></div>';
+		}
+
+		// Potencias de la matriz
+		if (propiedades_algebra?.potencias && !propiedades_algebra.potencias.error) {
+			html += '<div class="analisis-section"><h3>Potencias de la Matriz</h3>';
+			html += '<div class="tabs-potencias">';
+			html += '<button class="tab-potencia active" data-potencia="2">T²</button>';
+			html += '<button class="tab-potencia" data-potencia="3">T³</button>';
+			html += '<button class="tab-potencia" data-potencia="5">T⁵</button>';
+			html += '<button class="tab-potencia" data-potencia="10">T¹⁰</button>';
+			html += '</div>';
+			
+			['T2', 'T3', 'T5', 'T10'].forEach((pot, idx) => {
+				const potencia = propiedades_algebra.potencias[pot];
+				const num = [2, 3, 5, 10][idx];
+				html += `<div class="potencia-content" id="potencia-${num}" style="display: ${idx === 0 ? 'block' : 'none'}">`;
+				html += `<h4>Matriz T^${num}</h4>`;
+				html += '<div class="matriz-wrapper"><table class="matriz-table"><thead><tr><th></th>';
+				estados.forEach((estado: string) => {
+					html += `<th>${estado}</th>`;
+				});
+				html += '</tr></thead><tbody>';
+				potencia.forEach((fila: number[], i: number) => {
+					html += `<tr><th>${estados[i]}</th>`;
+					fila.forEach((celda: number) => {
+						const porcentaje = (celda * 100).toFixed(2);
+						html += `<td style="background: rgba(139, 69, 255, ${Math.min(celda * 0.5 + 0.2, 0.9)});">
+							${formatearNumero(celda)}<br><small>${porcentaje}%</small>
+						</td>`;
+					});
+					html += '</tr>';
+				});
+				html += '</tbody></table></div></div>';
+			});
+			html += '</div>';
+		}
+
+		container.innerHTML = html;
+
+		// Agregar event listeners para las pestañas de potencias
+		document.querySelectorAll('.tab-potencia').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const potencia = btn.getAttribute('data-potencia');
+				document.querySelectorAll('.tab-potencia').forEach(b => b.classList.remove('active'));
+				document.querySelectorAll('.potencia-content').forEach(c => (c as HTMLElement).style.display = 'none');
+				btn.classList.add('active');
+				const content = document.getElementById(`potencia-${potencia}`);
+				if (content) content.style.display = 'block';
+			});
+		});
+	}
+
+	function actualizarParametrosPerdidas() {
+		const container = document.getElementById('parametros-container');
+		if (!container || !estadoGlobal.estados) return;
+
+		let html = '<div class="parametros-table"><table><thead><tr><th>Estado</th><th>EAD ($)</th><th>LGD (%)</th></tr></thead><tbody>';
+
+		estadoGlobal.estados.forEach(estado => {
+			const eadDefault = estado === 'Sano' ? 1000 : estado === 'Moroso' ? 5000 : 0;
+			const lgdDefault = estado === 'Sano' ? 0 : estado === 'Moroso' ? 30 : 50;
+			
+			html += `<tr>
+				<td><strong>${estado}</strong></td>
+				<td><input type="number" class="param-input" data-estado="${estado}" data-param="ead" value="${eadDefault}" min="0" step="100" /></td>
+				<td><input type="number" class="param-input" data-estado="${estado}" data-param="lgd" value="${lgdDefault}" min="0" max="100" step="1" /></td>
+			</tr>`;
+		});
+
+		html += '</tbody></table></div>';
+		container.innerHTML = html;
+	}
+
+	async function verificarBackend(): Promise<boolean> {
+		const timeoutPromise = new Promise<never>((_, reject) => {
+			setTimeout(() => reject(new Error('Timeout')), 5000);
+		});
+
+		try {
+			const fetchPromise = fetch('/api/health', {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+				cache: 'no-cache'
+			});
+			
+			const response = await Promise.race([fetchPromise, timeoutPromise]);
+			if (response.ok) {
+				console.log('Backend integrado funcionando correctamente');
+				return true;
+			}
+			console.warn('Backend respondió pero con status:', response.status);
+			return false;
+		} catch (error: any) {
+			console.error('Error al verificar backend:', error);
+			return false;
+		}
+	}
+
+
+		document.getElementById('btn-calcular-estacionario')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos para obtener la matriz de transición.');
+				return;
+			}
+
+			const container = document.getElementById('estacionario-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const response = await fetch('/api/estacionario', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_transicion: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+				estadoGlobal.vectorEstacionario = data.vector_estacionario;
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Vector estacionario calculado</div>';
+				html += `<p><strong>Iteraciones:</strong> ${data.iteraciones} | <strong>Convergió:</strong> ${data.convergio ? 'Sí' : 'No'}</p>`;
+				
+				html += '<h3>Distribución Estacionaria π:</h3>';
+				html += '<table class="data-table"><thead><tr>';
+				data.estados.forEach((estado: string) => html += `<th>${estado}</th>`);
+				html += '</tr></thead><tbody><tr>';
+				data.vector_estacionario.forEach((val: number) => html += `<td>${formatearNumero(val)}<br><small>${formatearPorcentaje(val)}</small></td>`);
+				html += '</tr></tbody></table>';
+
+				html += '<div class="chart-container"><h4>Visualización</h4><div class="bar-chart">';
+				data.estados.forEach((estado: string, i: number) => {
+					const porcentaje = data.vector_estacionario[i] * 100;
+					html += `
+						<div class="bar-item">
+							<div class="bar-label">${estado}</div>
+							<div class="bar-wrapper">
+								<div class="bar" style="width: ${porcentaje}%"></div>
+								<span class="bar-value">${porcentaje.toFixed(2)}%</span>
+							</div>
+						</div>
+					`;
+				});
+				html += '</div></div>';
+
+				container.innerHTML = html;
+				actualizarAnalisisAvanzado(data);
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+		document.getElementById('btn-calcular-perdidas')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos.');
+				return;
+			}
+
+			const container = document.getElementById('perdidas-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const ead: Record<string, number> = {};
+				const lgd: Record<string, number> = {};
+
+				document.querySelectorAll('.param-input[data-param="ead"]').forEach(input => {
+					const estado = (input as HTMLElement).getAttribute('data-estado');
+					const valor = parseFloat((input as HTMLInputElement).value);
+					if (estado) ead[estado] = valor;
+				});
+
+				document.querySelectorAll('.param-input[data-param="lgd"]').forEach(input => {
+					const estado = (input as HTMLElement).getAttribute('data-estado');
+					const valor = parseFloat((input as HTMLInputElement).value) / 100; // Convertir a decimal
+					if (estado) lgd[estado] = valor;
+				});
+
+				const response = await fetch('/api/perdidas', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_transicion: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados,
+						ead,
+						lgd
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Pérdidas esperadas calculadas</div>';
+				html += `<div class="total-loss"><strong>Pérdida Total Esperada:</strong> $${formatearNumero(data.perdida_total, 2)}</div>`;
+				html += `<p><strong>Estado de Default:</strong> ${data.estado_default}</p>`;
+
+				html += '<h3>Desglose por Estado:</h3><table class="data-table"><thead><tr>';
+				html += '<th>Estado</th><th>EAD</th><th>PD</th><th>LGD</th><th>EL (Pérdida Esperada)</th>';
+				html += '</tr></thead><tbody>';
+
+				Object.entries(data.perdidas_por_estado).forEach(([estado, valores]: [string, any]) => {
+					html += `<tr>
+						<td><strong>${estado}</strong></td>
+						<td>$${formatearNumero(valores.EAD, 2)}</td>
+						<td>${formatearPorcentaje(valores.PD)}</td>
+						<td>${formatearPorcentaje(valores.LGD)}</td>
+						<td class="loss-cell">$${formatearNumero(valores.EL, 2)}</td>
+					</tr>`;
+				});
+
+				html += '</tbody></table>';
+				container.innerHTML = html;
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+		document.getElementById('btn-aplicar-stress')?.addEventListener('click', async () => {
+			if (!estadoGlobal.matrizTransicion) {
+				alert('Primero debes procesar los datos.');
+				return;
+			}
+
+			const container = document.getElementById('stress-container');
+			if (!container) return;
+
+			try {
+				mostrarCargando(container);
+
+				const factorMoroso = parseFloat((document.getElementById('factor-moroso') as HTMLInputElement)?.value || '1.2');
+				const factorIncobrable = parseFloat((document.getElementById('factor-incobrable') as HTMLInputElement)?.value || '1.3');
+
+				const response = await fetch('/api/stress', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						matriz_base: estadoGlobal.matrizTransicion,
+						estados: estadoGlobal.estados,
+						factor_moroso: factorMoroso,
+						factor_incobrable: factorIncobrable
+					})
+				});
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.error || error.detail || 'Error en la petición');
+				}
+
+				const data = await response.json();
+
+				let html = '<div class="success"><svg class="icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Escenario de stress aplicado</div>';
+				html += `<p><strong>Factor Moroso:</strong> ${data.cambios.factor_moroso}x | <strong>Factor Incobrable:</strong> ${data.cambios.factor_incobrable}x</p>`;
+
+				html += '<h3>Matriz de Transición (Stress):</h3>';
+				html += '<div class="matriz-wrapper"><table class="matriz-table"><thead><tr><th></th>';
+				data.estados.forEach((estado: string) => html += `<th>${estado}</th>`);
+				html += '</tr></thead><tbody>';
+
+				data.matriz_stress.forEach((fila: number[], i: number) => {
+					html += `<tr><th>${data.estados[i]}</th>`;
+					fila.forEach(celda => {
+						html += `<td>${formatearNumero(celda)}<br><small>${formatearPorcentaje(celda)}</small></td>`;
+					});
+					html += '</tr>';
+				});
+				html += '</tbody></table></div>';
+
+				html += '<h3>Comparación de Vectores Estacionarios:</h3>';
+				html += '<table class="data-table"><thead><tr><th>Estado</th><th>Base</th><th>Stress</th><th>Cambio</th></tr></thead><tbody>';
+
+				data.estados.forEach((estado: string, i: number) => {
+					const base = data.vector_estacionario_base[i];
+					const stress = data.vector_estacionario_stress[i];
+					const cambio = base > 0 ? ((stress - base) / base * 100) : 0;
+					const cambioClass = cambio > 0 ? 'positive' : 'negative';
+					html += `<tr>
+						<td><strong>${estado}</strong></td>
+						<td>${formatearPorcentaje(base)}</td>
+						<td>${formatearPorcentaje(stress)}</td>
+						<td class="${cambioClass}">${cambio > 0 ? '+' : ''}${cambio.toFixed(2)}%</td>
+					</tr>`;
+				});
+
+				html += '</tbody></table>';
+				container.innerHTML = html;
+
+			} catch (error: any) {
+				mostrarError(container, error?.message || 'Error desconocido');
+			}
+		});
+
+	function actualizarEstadisticas(data: any) {
+		const container = document.getElementById('estadisticas-container');
+		if (!container) return;
+
+		let html = '<ul class="stats-list">';
+		html += `<li><strong>Total de transiciones:</strong> ${data.estadisticas.total_transiciones}</li>`;
+		html += '<li><strong>Conteo por estado:</strong><ul>';
+		Object.entries(data.estadisticas.conteo_por_estado).forEach(([estado, count]) => {
+			html += `<li>${estado}: ${count}</li>`;
+		});
+		html += '</ul></li></ul>';
+		container.innerHTML = html;
+	}
+
+	function actualizarAnalisisAvanzado(data: any) {
+		const absorcionContainer = document.getElementById('absorcion-container');
+		if (absorcionContainer && data.vector_estacionario) {
+			let html = '<p>Las probabilidades de absorción se reflejan en el vector estacionario:</p><ul>';
+			data.estados.forEach((estado: string, i: number) => {
+				html += `<li><strong>${estado}:</strong> ${formatearPorcentaje(data.vector_estacionario[i])}</li>`;
+			});
+			html += '</ul>';
+			absorcionContainer.innerHTML = html;
+		}
+
+		const tendenciasContainer = document.getElementById('tendencias-container');
+		if (tendenciasContainer && data.vector_estacionario) {
+			const maxIndex = data.vector_estacionario.indexOf(Math.max(...data.vector_estacionario));
+			const tendencia = data.estados[maxIndex];
+			let html = `<p><strong>Tendencia principal:</strong> El sistema tiende hacia el estado <strong>${tendencia}</strong> con una probabilidad de ${formatearPorcentaje(data.vector_estacionario[maxIndex])}.</p>`;
+			html += '<p>Esto indica que a largo plazo, la mayoría de los clientes estarán en este estado.</p>';
+			tendenciasContainer.innerHTML = html;
+		}
+	}
+
+	async function actualizarEstadoConexion() {
+		const indicator = document.getElementById('status-indicator');
+		const statusText = document.getElementById('status-text');
+		
+		if (!indicator || !statusText) return;
+
+		const backendDisponible = await verificarBackend();
+		
+		if (backendDisponible) {
+			indicator.innerHTML = '<svg class="icon-inline" width="12" height="12" viewBox="0 0 24 24" fill="#10b981"><circle cx="12" cy="12" r="10"></circle></svg>';
+			indicator.className = 'status-indicator connected';
+			statusText.textContent = 'Backend conectado';
+		} else {
+			indicator.innerHTML = '<svg class="icon-inline" width="12" height="12" viewBox="0 0 24 24" fill="#ef4444"><circle cx="12" cy="12" r="10"></circle></svg>';
+			indicator.className = 'status-indicator disconnected';
+			statusText.textContent = 'Backend desconectado - Recarga la página (F5)';
+		}
+	}
+
+	window.addEventListener('DOMContentLoaded', async () => {
+		await actualizarEstadoConexion();
+		
+		setInterval(actualizarEstadoConexion, 5000);
+	});
+
+	function inicializarTodo() {
+		console.log('Inicializando aplicación...');
+		
+		inicializarEstados();
+		actualizarSelects();
+		
+		inicializarEventListeners();
+		
+		estimarMatrizTransicion();
+	}
+
+	if (document.readyState === 'loading') {
+		window.addEventListener('DOMContentLoaded', inicializarTodo);
+	} else {
+		inicializarTodo();
+	}
+</script>
+
+<style>
+	:root {
+		--primary: #8b45ff;
+		--primary-dark: #6b2dd4;
+		--primary-light: #a855f7;
+		--secondary: #10b981;
+		--danger: #ef4444;
+		--warning: #f59e0b;
+		--bg: #f8fafc;
+		--bg-card: #ffffff;
+		--text: #1e293b;
+		--text-light: #64748b;
+		--border: #e2e8f0;
+		--shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+		--shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+	}
+
+	.container {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 2rem;
+		min-height: calc(100vh - 200px);
+	}
+
+	.header {
+		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+		color: white;
+		border-radius: 16px;
+		padding: 3rem 2rem;
+		margin-bottom: 2rem;
+		box-shadow: var(--shadow-xl);
+	}
+
+	.header-content {
+		text-align: center;
+	}
+
+	.header h1 {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+		font-weight: 700;
+	}
+
+	.subtitle {
+		font-size: 1.1rem;
+		opacity: 0.95;
+		margin-bottom: 1rem;
+	}
+
+	.backend-status {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 1rem;
+		padding: 0.75rem 1rem;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 8px;
+		font-size: 0.9rem;
+	}
+
+	.icon-inline {
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 0.5rem;
+		width: 1em;
+		height: 1em;
+	}
+
+	.status-indicator {
+		display: inline-flex;
+		align-items: center;
+		animation: pulse 2s infinite;
+	}
+
+	.status-indicator.connected {
+		animation: none;
+	}
+
+	.status-indicator.disconnected {
+		animation: pulse 1s infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.5; }
+	}
+
+	/* Tabs */
+	.tabs {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		background: white;
+		padding: 0.5rem;
+		border-radius: 12px;
+		box-shadow: var(--shadow);
+	}
+
+	.tab-btn {
+		padding: 0.75rem 1.5rem;
+		border: none;
+		background: transparent;
+		color: var(--text);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		border-radius: 8px;
+		transition: all 0.2s;
+	}
+
+	.tab-btn:hover {
+		background: var(--bg);
+	}
+
+	.tab-btn.active {
+		background: var(--primary);
+		color: white;
+	}
+
+	.tab-content {
+		display: none;
+	}
+
+	.tab-content.active {
+		display: block;
+	}
+
+	/* Cards */
+	.card {
+		background: var(--bg-card);
+		border-radius: 16px;
+		padding: 2rem;
+		box-shadow: var(--shadow);
+		border: 1px solid var(--border);
+		margin-bottom: 2rem;
+	}
+
+	.card h2 {
+		color: var(--primary);
+		margin-bottom: 0.5rem;
+		font-size: 1.75rem;
+	}
+
+	.description {
+		color: var(--text-light);
+		margin-bottom: 1.5rem;
+		font-size: 0.95rem;
+	}
+
+	.card-actions {
+		display: flex;
+		gap: 1rem;
+		margin: 1.5rem 0;
+		flex-wrap: wrap;
+		position: relative;
+		z-index: 5;
+	}
+
+	#btn-estimar-matriz {
+		position: relative;
+		z-index: 20;
+		pointer-events: auto;
+		cursor: pointer;
+	}
+
+	/* Inputs */
+	.input-section {
+		margin-bottom: 2rem;
+		padding: 1.5rem;
+		background: var(--bg);
+		border-radius: 12px;
+	}
+
+	.input-section h3 {
+		color: var(--text);
+		margin-bottom: 0.5rem;
+		font-size: 1.25rem;
+	}
+
+	.help-text {
+		color: var(--text-light);
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+	}
+
+	.estados-input {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.estados-input input {
+		padding: 0.75rem;
+		border: 2px solid var(--border);
+		border-radius: 8px;
+		font-size: 1rem;
+		flex: 1;
+		min-width: 150px;
+	}
+
+	.transicion-input {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		flex-wrap: wrap;
+		margin-bottom: 1rem;
+	}
+
+	.transicion-input select,
+	.transicion-input input {
+		padding: 0.75rem;
+		border: 2px solid var(--border);
+		border-radius: 8px;
+		font-size: 1rem;
+	}
+
+	.transicion-input input[type="number"] {
+		width: 100px;
+	}
+
+	.transiciones-lista {
+		margin-top: 1rem;
+	}
+
+	.transiciones-table {
+		overflow-x: auto;
+	}
+
+	.transiciones-table table {
+		width: 100%;
+		border-collapse: collapse;
+		background: white;
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	.transiciones-table th,
+	.transiciones-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.transiciones-table th {
+		background: var(--primary);
+		color: white;
+		font-weight: 600;
+	}
+
+	.total-transiciones {
+		margin-top: 1rem;
+		font-weight: 600;
+		color: var(--primary);
+	}
+
+	/* Buttons */
+	.btn {
+		padding: 0.75rem 1.5rem;
+		border: none;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.btn-primary {
+		background: var(--primary);
+		color: white;
+		position: relative;
+		z-index: 10;
+		pointer-events: auto;
+		cursor: pointer;
+	}
+
+	.btn-primary:hover {
+		background: var(--primary-dark);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow);
+	}
+
+	.btn-secondary {
+		background: var(--primary-light);
+		color: white;
+	}
+
+	.btn-secondary:hover {
+		background: var(--primary);
+	}
+
+	.btn-outline {
+		background: transparent;
+		color: var(--primary);
+		border: 2px solid var(--primary);
+	}
+
+	.btn-outline:hover {
+		background: var(--primary);
+		color: white;
+	}
+
+	.btn-large {
+		padding: 1rem 2rem;
+		font-size: 1.1rem;
+	}
+
+	.btn-icon {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+	}
+
+	.btn-icon-small {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 1.2rem;
+		padding: 0.25rem;
+	}
+
+	/* Matriz */
+	.matriz-container {
+		margin: 1.5rem 0;
+	}
+
+	.matriz-wrapper {
+		overflow-x: auto;
+	}
+
+	.matriz-table {
+		width: 100%;
+		border-collapse: collapse;
+		background: white;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: var(--shadow);
+	}
+
+	.matriz-table th {
+		background: var(--primary);
+		color: white;
+		padding: 1rem;
+		text-align: center;
+		font-weight: 600;
+	}
+
+	.matriz-table td {
+		padding: 1rem;
+		text-align: center;
+		border: 1px solid var(--border);
+		transition: background 0.2s;
+	}
+
+	.matriz-table td:hover {
+		background: rgba(139, 69, 255, 0.1);
+	}
+
+	.matriz-table small {
+		display: block;
+		color: var(--text-light);
+		font-size: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
+	/* Parámetros */
+	.parametros-grid {
+		margin-top: 1rem;
+	}
+
+	.parametros-table {
+		overflow-x: auto;
+	}
+
+	.parametros-table table {
+		width: 100%;
+		border-collapse: collapse;
+		background: white;
+		border-radius: 8px;
+	}
+
+	.parametros-table th,
+	.parametros-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.parametros-table th {
+		background: var(--primary);
+		color: white;
+	}
+
+	.param-input {
+		padding: 0.5rem;
+		border: 2px solid var(--border);
+		border-radius: 6px;
+		width: 100%;
+		max-width: 200px;
+	}
+
+	/* Stress inputs */
+	.stress-inputs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.input-group {
+		margin-bottom: 1rem;
+	}
+
+	.input-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+		color: var(--text);
+	}
+
+	.input-group input {
+		width: 100%;
+		padding: 0.75rem;
+		border: 2px solid var(--border);
+		border-radius: 8px;
+		font-size: 1rem;
+	}
+
+	/* Resultados */
+	.resultado {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background: var(--bg);
+		border-radius: 12px;
+		border: 1px solid var(--border);
+	}
+
+	.success {
+		background: #d1fae5;
+		color: #065f46;
+		padding: 1rem;
+		border-radius: 8px;
+		margin-bottom: 1rem;
+		font-weight: 600;
+	}
+
+	.error {
+		background: #fee2e2;
+		color: #991b1b;
+		padding: 1.5rem;
+		border-radius: 8px;
+		font-weight: 600;
+		line-height: 1.8;
+		text-align: left;
+	}
+
+	.error code {
+		background: rgba(0, 0, 0, 0.1);
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-family: 'Courier New', monospace;
+		font-size: 0.9em;
+		display: inline-block;
+		margin: 0.2rem 0;
+	}
+
+	.error a {
+		color: #991b1b;
+		text-decoration: underline;
+		font-weight: 700;
+	}
+
+	.loading {
+		text-align: center;
+		padding: 2rem;
+		color: var(--text-light);
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 2rem;
+		color: var(--text-light);
+		font-style: italic;
+	}
+
+	.data-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1rem 0;
+		background: white;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: var(--shadow);
+	}
+
+	/* Análisis de Matriz Completa */
+	.analisis-section {
+		margin: 2rem 0;
+		padding: 1.5rem;
+		background: var(--bg);
+		border-radius: 12px;
+		border: 1px solid var(--border);
+	}
+
+	.analisis-section h3 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary);
+		font-size: 1.5rem;
+		border-bottom: 2px solid var(--primary);
+		padding-bottom: 0.5rem;
+	}
+
+	.propiedades-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1rem;
+	}
+
+	.propiedad-card {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow);
+	}
+
+	.propiedad-card h4 {
+		margin-top: 0;
+		margin-bottom: 1rem;
+		color: var(--primary);
+		font-size: 1.2rem;
+	}
+
+	.propiedad-card ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.propiedad-card li {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.propiedad-card li:last-child {
+		border-bottom: none;
+	}
+
+	.propiedad-card strong {
+		color: var(--text);
+		margin-right: 0.5rem;
+	}
+
+	/* Tabs de Potencias */
+	.tabs-potencias {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 1.5rem;
+		border-bottom: 2px solid var(--border);
+	}
+
+	.tab-potencia {
+		padding: 0.75rem 1.5rem;
+		background: transparent;
+		border: none;
+		border-bottom: 3px solid transparent;
+		cursor: pointer;
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--text-light);
+		transition: all 0.3s;
+	}
+
+	.tab-potencia:hover {
+		color: var(--primary);
+		background: rgba(139, 69, 255, 0.1);
+	}
+
+	.tab-potencia.active {
+		color: var(--primary);
+		border-bottom-color: var(--primary);
+		background: rgba(139, 69, 255, 0.1);
+	}
+
+	.potencia-content {
+		margin-top: 1rem;
+	}
+
+	.data-table th {
+		background: var(--primary);
+		color: white;
+		padding: 0.75rem;
+		text-align: left;
+		font-weight: 600;
+	}
+
+	.data-table td {
+		padding: 0.75rem;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.data-table tr:hover {
+		background: var(--bg);
+	}
+
+	.total-loss {
+		font-size: 1.5rem;
+		color: var(--danger);
+		margin: 1rem 0;
+		padding: 1.5rem;
+		background: #fee2e2;
+		border-radius: 12px;
+		text-align: center;
+		font-weight: 700;
+	}
+
+	.loss-cell {
+		color: var(--danger);
+		font-weight: 600;
+	}
+
+	/* Charts */
+	.chart-container {
+		margin-top: 2rem;
+	}
+
+	.bar-chart {
+		margin-top: 1rem;
+	}
+
+	.bar-item {
+		margin-bottom: 1.5rem;
+	}
+
+	.bar-label {
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+		color: var(--text);
+	}
+
+	.bar-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.bar {
+		height: 35px;
+		background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+		border-radius: 6px;
+		min-width: 2%;
+		transition: width 0.3s;
+		box-shadow: var(--shadow);
+	}
+
+	.bar-value {
+		font-weight: 600;
+		color: var(--text);
+		min-width: 80px;
+	}
+
+	.positive {
+		color: var(--danger);
+		font-weight: 600;
+	}
+
+	.negative {
+		color: var(--secondary);
+		font-weight: 600;
+	}
+
+	/* Análisis */
+	.analisis-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+
+	.analisis-card {
+		background: var(--bg);
+		padding: 1.5rem;
+		border-radius: 12px;
+		border: 1px solid var(--border);
+	}
+
+	.analisis-card h3 {
+		color: var(--primary);
+		margin-bottom: 1rem;
+	}
+
+	.stats-list {
+		list-style: none;
+		padding: 0;
+	}
+
+	.stats-list li {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.stats-list ul {
+		margin-top: 0.5rem;
+		padding-left: 1.5rem;
+	}
+
+	/* Footer */
+	.footer {
+		background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+		color: white;
+		margin-top: 4rem;
+		padding: 3rem 2rem 1rem;
+	}
+
+	.footer-content {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.footer-section h4 {
+		margin-bottom: 1rem;
+		font-size: 1.1rem;
+	}
+
+	.footer-section ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.footer-section ul li {
+		padding: 0.25rem 0;
+		opacity: 0.9;
+	}
+
+	.footer-section p {
+		opacity: 0.9;
+		line-height: 1.6;
+	}
+
+	.footer-bottom {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding-top: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.2);
+		text-align: center;
+		opacity: 0.8;
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.container {
+			padding: 1rem;
+		}
+
+		.header h1 {
+			font-size: 1.8rem;
+		}
+
+		.tabs {
+			flex-direction: column;
+		}
+
+		.tab-btn {
+			width: 100%;
+		}
+
+		.card-actions {
+			flex-direction: column;
+		}
+
+		.btn {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

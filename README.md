@@ -1,46 +1,87 @@
-# Astro Starter Kit: Basics
+# Frontend - Sistema de Análisis de Riesgo Crediticio
 
-```sh
-npm create astro@latest -- --template basics
+Sistema completo integrado con backend incluido. **Ya no necesitas Python ni ejecutar servidores separados.**
+
+## Inicio Rápido
+
+### Solo un comando:
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+¡Eso es todo! El backend está integrado en Astro, así que todo funciona con un solo comando.
 
-## 🚀 Project Structure
+## Características
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Backend integrado** - No necesitas Python ni servidores separados
+- **Todo en TypeScript** - Código moderno y tipado
+- **Un solo comando** - `npm run dev` y listo
+- **Sin configuración** - Funciona inmediatamente
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+## Estructura
+
+```
+markov/
+├── src/
+│   ├── lib/
+│   │   └── markov.ts          # Funciones de cálculo (backend integrado)
+│   ├── pages/
+│   │   ├── api/               # Endpoints API
+│   │   │   ├── matriz.ts
+│   │   │   ├── estacionario.ts
+│   │   │   ├── perdidas.ts
+│   │   │   ├── stress.ts
+│   │   │   └── health.ts
+│   │   └── index.astro        # Interfaz principal
+│   └── layouts/
+│       └── Layout.astro
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Uso
 
-## 🧞 Commands
+1. **Instala dependencias** (solo la primera vez):
+   ```bash
+   npm install
+   ```
 
-All commands are run from the root of the project, from a terminal:
+2. **Inicia el servidor**:
+   ```bash
+   npm run dev
+   ```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+3. **Abre tu navegador** en la URL que te muestre (generalmente `http://localhost:4321`)
 
-## 👀 Want to learn more?
+4. **¡Listo!** Ya puedes usar el sistema completo.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Scripts Disponibles
+
+- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run build` - Construye la aplicación para producción
+- `npm run preview` - Previsualiza la build de producción
+
+## Notas
+
+- El backend está completamente integrado en TypeScript
+- No necesitas Python, FastAPI, ni ningún servidor separado
+- Todo funciona con un solo comando: `npm run dev`
+- Los cálculos se realizan en el servidor de Astro usando TypeScript
+
+## Solución de Problemas
+
+**Error al instalar dependencias:**
+- Asegúrate de tener Node.js 18+ instalado
+- Ejecuta: `npm install` de nuevo
+
+**El servidor no inicia:**
+- Verifica que el puerto 4321 (o el que Astro asigne) esté disponible
+- Cierra otros programas que puedan estar usando el puerto
+
+**Error en los cálculos:**
+- Recarga la página (F5)
+- Verifica la consola del navegador (F12) para ver errores
+
+---
+
+**¡Disfruta del sistema! Todo funciona con un solo comando.**
